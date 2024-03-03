@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class StripeController extends Controller
 {
@@ -11,7 +12,27 @@ class StripeController extends Controller
      */
     public function index()
     {
-        //
+        $users = [
+            [
+                "id" => 1,
+                "name" => "edward"
+            ],
+            [
+                "id" => 2,
+                "name" => "briiian"
+            ],
+            [
+                "id" => 3,
+                "name" => "laravel"
+            ]
+        ];
+
+        return view(
+            'admin.index',
+            [
+                'users' => $users
+            ]
+        );
     }
 
     /**
@@ -19,7 +40,28 @@ class StripeController extends Controller
      */
     public function create()
     {
-        //
+        $stripe = new \Stripe\StripeClient("sk_test_51GzWBTJXQpzchPKbrTpU5yI9B3BOvrJfgAPoNNt5OStBaZjoxJiUdaOSAKBfBeEh5KeKMmlVWWrP22WnDVtEt6KI00jzYWQlUc");
+
+        $product = $stripe->products->create([
+            'name' => 'pagos de municios',
+            'description' => 'pagos de servicios de agua',
+        ]);
+
+        $price = $stripe->prices->create([
+            'unit_amount' => 300,
+            'currency' => 'usd',
+            'recurring' => ['interval' => 'month'],
+            'product' => $product['id'],
+        ]);
+
+
+        $intents = $stripe->paymentIntents->create([
+            'amount' => 2000,
+            'currency' => 'usd',
+            'automatic_payment_methods' => ['enabled' => true],
+        ]);
+
+        return  $intents;
     }
 
     /**
@@ -27,7 +69,17 @@ class StripeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $name = $request->input("name");
+        $email = $request->input("email");
+
+        $stripe = new \Stripe\StripeClient('sk_test_51GzWBTJXQpzchPKbrTpU5yI9B3BOvrJfgAPoNNt5OStBaZjoxJiUdaOSAKBfBeEh5KeKMmlVWWrP22WnDVtEt6KI00jzYWQlUc');
+
+        $response = $stripe->customers->create([
+            'name' => $name,
+            'email' => $email
+        ]);
+
+        return $response;
     }
 
     /**

@@ -8,13 +8,16 @@ import {
     ElementsConsumer,
     useStripe,
     useElements,
+    CardElement,
 } from "@stripe/react-stripe-js";
 
 import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 
 const stripePromise = loadStripe(
     "pk_test_51GzWBTJXQpzchPKb2g2azvmCYToOSpwLC9xI9G5gVWqcDPzjahJf0WdFv5wq8K59wvUh86dvdjZfC4R7F9BS9WQM00oaHiDNyl"
 );
+
 const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
@@ -22,22 +25,27 @@ const CheckoutForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault;
 
-        const responsePayment = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                // Make sure to change this to your payment completion page
-                return_url: "http://localhost:3000",
-            },
-            clientSecret: `pm_1OggGTJXQpzchPKbjXCnAUKa`,
+        const flow = await axios.post("api/payment_flow");
+
+        dd(flow);
+
+        const { error, paymentMethod } = await stripe.confirmPayment({
+            // confirmParams: {
+            //     // Make sure to change this to your payment completion page
+            //     return_url: "http://localhost:3000",
+            // },
+            // clientSecret: `pm_1OggGTJXQpzchPKbjXCnAUKa`,
+            type: "card",
+            card: elements.getElement("payment"),
         });
 
-        console.log(responsePayment);
+        console.log("🚀 ~ handleSubmit ~ paymentMethod:", paymentMethod.id);
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <PaymentElement />
-            <button>Submit</button>
+            <button type="submit">Submit</button>
         </form>
     );
 };
