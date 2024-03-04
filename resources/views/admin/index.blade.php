@@ -1,21 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/css/admin.css">
-    <title>Document</title>
-</head>
+@extends('layouts.landing')
 
-<body>
-        @include('components.navbar')
-        {{-- <div class="_">
-            @foreach ($users as $item)
-            <p>
-                {{ $item['id'] }} - {{ $item['name'] }}
-            </p>
-            @endforeach
-        </div> --}}
-</body>
-</html>
+
+@section('title','index')
+
+@section('content')
+    <h1>pagina de index del banco</h1>
+    @component('_components.card')
+        @slot('title','ok')
+    @endcomponent
+@endsection

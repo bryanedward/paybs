@@ -10,14 +10,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // rutas del adminisitrador de mi banco
-Route::get("/", [StripeController::class, "index"])->name("admin");
+
 Route::get("/pagos", function () {
     return view("admin.pagos");
-});
-
-Route::group(['as' => 'pay'], function () {
-    // Route::post("/payment_flow", [StripeController::class, "create"]);
-    Route::post("/customer", [StripeController::class, "store"]);
-});
-
-Route::apiResource('clientes', ClientsController::class);
+})->name("pagos");

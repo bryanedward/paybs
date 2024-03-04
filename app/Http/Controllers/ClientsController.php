@@ -6,17 +6,21 @@ use App\Http\Requests\StoreclientsRequest;
 use App\Http\Requests\UpdateclientsRequest;
 use App\Http\Resources\ClientResourceCollection;
 use App\Models\clients;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class ClientsController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $client  = clients::all();
-        $client = new ClientResourceCollection($client);
-        return  $client;
+        $clients  = clients::all();
+        // $client = new ClientResourceCollection($client);
+        return  view("admin.client", compact('clients'));
     }
 
     /**
@@ -24,7 +28,7 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.create");
     }
 
     /**
@@ -32,15 +36,33 @@ class ClientsController extends Controller
      */
     public function store(StoreclientsRequest $request)
     {
-        //
+
+        try {
+            $name = $request->name;
+            $lastname = $request->lastname;
+            clients::create([
+                'name' => $name,
+                'lastname' => $lastname,
+                'address' => "",
+                'phone' => "",
+                'city' => "",
+                'email' => ""
+
+            ]);
+        } catch (\Throwable $th) {
+            throw new Exception($th);
+        }
+
+        return redirect()->route("client.index");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(clients $clients)
+    public function show($id)
     {
-        //
+        $client = clients::findOrFail($id);
+        return $client;
     }
 
     /**
