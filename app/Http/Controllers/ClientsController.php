@@ -20,7 +20,7 @@ class ClientsController extends Controller
     {
         $clients  = clients::all();
         // $client = new ClientResourceCollection($client);
-        return  view("admin.client", compact('clients'));
+        return  view("admin.index", compact('clients'));
     }
 
     /**

@@ -4,8 +4,26 @@
 @section('title','index')
 
 @section('content')
-    <h1>pagina de index del banco</h1>
-    @component('_components.card')
-        @slot('title','ok')
-    @endcomponent
+    <div class="container">
+        <div class="item">
+            Pays
+        </div>
+        <div class="item">
+            <h1>Lista de Pagos de los clientes</h1>
+            <a href="{{route("client.create")}}">Crear un nuevo client</a>
+            @forelse ($clients as $item)
+            @component('_components.card')
+            @slot('name',$item["name"])
+            @slot('lastname',$item["lastname"])
+            @endcomponent
+            @empty
+            <small>No dispones de datos</small>
+            @endforelse
+        </div>
+        <div class="item">
+
+        </div>
+    </div>
+   
+
 @endsection
