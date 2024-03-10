@@ -70,6 +70,9 @@ nav .nav-links > li > a {
     border: 1px solid rebeccapurple;
     margin-bottom: .2rem;
 }
+.cards div a {
+    list-style: none;
+}
 
 
 

@@ -11,6 +11,7 @@
 </head>
 <body>
     @include('layouts._partials.navbar')
+    @include('layouts._partials.message')
     @yield('content')
 </body>
 </html>

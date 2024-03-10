@@ -12,9 +12,12 @@
             <h1>Lista de Pagos de los clientes</h1>
             <a href="{{route("client.create")}}">Crear un nuevo client</a>
             @forelse ($clients as $item)
+            
+
             @component('_components.card')
             @slot('name',$item["name"])
             @slot('lastname',$item["lastname"])
+            @slot('id',$item["id"])
             @endcomponent
             @empty
             <small>No dispones de datos</small>

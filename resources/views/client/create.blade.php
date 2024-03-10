@@ -12,11 +12,23 @@
     <div>
         <label for="name">Nombre:</label>
         <input type="text" id="name" name="name">
+        <br>
+        @error('name')
+        <p>
+                {{ $message }}
+            </p>
+        @enderror
     </div>
 
     <div>
-        <label for="lastname">Email:</label>
-        <input type="text" id="lastname" name="lastname">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email">
+        <br>
+        @error('email')
+        <p>
+            {{ $message }}
+        </p>
+        @enderror
     </div>
 
     <!-- Otros campos del formulario -->
